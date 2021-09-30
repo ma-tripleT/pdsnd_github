@@ -6,13 +6,14 @@ By Matthew Thomson https://github.com/ma-tripleT
 import time
 import pandas as pd
 import numpy as np
-from typing import List
+from typing import Dict, List
 
 from pandas.core.frame import DataFrame
 
-CITY_DATA = { 'chicago': 'chicago.csv',
+CITY_DATA: Dict = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
-              'washington': 'washington.csv' }
+              'washington': 'washington.csv'
+              }
 
 cities: List[str] = ['chicago','new york city','washington']
 months: List[str] = ['all', 'january', 'february', 'march', 'april', 'may', 'june']
@@ -160,18 +161,6 @@ def dob_trim(df: DataFrame) -> DataFrame:
     print("This also happens to remove the NaN values")
     print('-'*40)
     return df
-    # # Find
-    # nan_mask = df['Birth Year'].isna()
-    # how_many_nans = nan_mask.sum()
-    # if how_many_nans > 0:
-    #     print(f"There's {how_many_nans} 'NaN' values in the 'Birth Year', let's look at the stats")
-    #     mu_dob = np.mean(df['Birth Year'])
-    #     sigma_dob = np.std(df['Birth Year'])
-    #     df['Birth Year'].mask(
-    #         nan_mask, 
-    #         int(np.rint(np.random.normal(loc=mu_dob, scale=sigma_dob))),
-    #         inplace=True)
-
 
 def data_cleaning(df: DataFrame) -> DataFrame:
     """A function to clean up the data by removing problems such as 'NaN' entries
@@ -183,9 +172,6 @@ def data_cleaning(df: DataFrame) -> DataFrame:
 
     if not nulls.empty:
         print(f"The columns below some 'NaN' values:\n{nulls}")
-
-    # for index_with_nan in enumerate(nulls.keys()[:]):
-        # print(f"Column: {index_with_nan} \n ")
 
     if 'Birth Year' in df.columns.values.tolist():
         df = dob_trim(df)
